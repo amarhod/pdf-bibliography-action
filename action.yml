@@ -1,5 +1,5 @@
 name: 'PDF Bibliography action'
-description: 'Checks the reference list of a PDF on PR's'
+description: 'Checks the reference list of a PDF on PRs'
 inputs:
   token:
     description: Token for GitHub API requests.
