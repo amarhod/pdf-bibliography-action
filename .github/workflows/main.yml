@@ -1,9 +1,13 @@
-on: push
+on: [push]
 
 jobs:
   pdf-bibliography:
     runs-on: ubuntu-latest
     name: A job to check bibliography in pdf files
     steps:
+      uses: actions/checkout@v2
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
     - name: PDF action
-      uses: amarhod/pdf-bibliography-action@v1
+      uses: amarhod/pdf-bibliography-action@amar
