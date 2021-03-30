@@ -1,0 +1,45 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Reference counter for essays
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the 2021 branch
+  pull_request:
+    types: [ labeled ]
+    branches:
+      - "natan"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  count-references:
+    if: ${{ github.event.label.name == 'essay' }}
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v2.2.1
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./contribuitions/course-automation/ntas-amar/requirements.txt
+
+      # Runs the reference counter
+      - name: Run reference counter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_FULLNAME: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: python ./contribuitions/course-automation/ntas-amar/test.py
