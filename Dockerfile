@@ -6,6 +6,8 @@ COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
 
+RUN apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
+
 COPY . /app
 
 RUN chmod +x /app/entrypoint.sh
