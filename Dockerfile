@@ -6,7 +6,8 @@ ENV TZ=Europe/Stockholm
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update && apt-get install -y \
-    python3 \ 
+    python3 \
+    python3-pip \ 
     build-essential \
     libpoppler-cpp-dev \
     pkg-config \
