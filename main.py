@@ -32,5 +32,4 @@ if __name__ == '__main__':
         print('No pdf files in commit')
     print(filepaths_pdf)
     for path in filepaths_pdf:
-        with open(path) as f:
-            print(f.read())
+        find_reference_list(path)
