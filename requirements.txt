@@ -1,0 +1,8 @@
+flake8==3.9.0
+importlib-metadata==3.10.0
+mccabe==0.6.1
+pdftotext==2.1.5
+pycodestyle==2.7.0
+pyflakes==2.3.1
+typing-extensions==3.7.4.3
+zipp==3.4.1

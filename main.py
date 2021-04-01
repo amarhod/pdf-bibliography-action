@@ -1,4 +1,13 @@
 import os
+import pdftotext
+
+
+def find_reference_list(path):
+    """ Returns the reference list as a string if there is one """
+    with open(path, 'rb') as f:
+        pdf = pdftotext.PDF(f)
+    for page in pdf:
+        print(page)
 
 
 def changed_files_list():
@@ -18,7 +27,10 @@ def filter_pdf_files(filepaths):
 if __name__ == '__main__':
     filepaths = changed_files_list()
     print(filepaths)
-    print(filter_pdf_files(filepaths))
-    for path in filepaths:
+    filepaths_pdf = filter_pdf_files(filepaths)
+    if len(filepaths_pdf) == 0:
+        print('No pdf files in commit')
+    print(filepaths_pdf)
+    for path in filepaths_pdf:
         with open(path) as f:
             print(f.read())
