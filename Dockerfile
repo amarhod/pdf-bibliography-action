@@ -1,12 +1,20 @@
-FROM python:3.8
+FROM ubuntu:20.04
 
 WORKDIR /app
+
+ENV TZ=Europe/Stockholm
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update && apt-get install -y \
+    python3 \ 
+    build-essential \
+    libpoppler-cpp-dev \
+    pkg-config \
+    python3-dev
 
 COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
-
-RUN apk add build-essential libpoppler-cpp-dev pkg-config python3-dev
 
 COPY . /app
 
