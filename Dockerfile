@@ -6,7 +6,10 @@ COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
 
-RUN apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
+RUN apt-get install -y \ 
+    build-essential \
+    libpoppler-cpp-dev \
+    pkg-config python3-dev
 
 COPY . /app
 
