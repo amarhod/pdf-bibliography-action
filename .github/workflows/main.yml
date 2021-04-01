@@ -11,6 +11,6 @@ jobs:
     - name: Get paths
       run: |
         git diff-tree --no-commit-id --name-status -r ${{ github.sha }} > CHANGED_FILES_PATHS.txt
-    - uses: amarhod/pdf-bibliography-action@docker
+    - uses: amarhod/pdf-bibliography-action@main
       with:
         repo_path: ./
