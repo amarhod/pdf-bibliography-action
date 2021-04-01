@@ -1,13 +1,13 @@
 import os
 import pdftotext
+from refextract import extract_references_from_file
 
 
 def find_reference_list(path):
     """ Returns the reference list as a string if there is one """
-    with open(path, 'rb') as f:
-        pdf = pdftotext.PDF(f)
-    for page in pdf:
-        print(page)
+    references = extract_references_from_file(path)
+    for ref in references:
+        print(ref.values())
 
 
 def changed_files_list():
