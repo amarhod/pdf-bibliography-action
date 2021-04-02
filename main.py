@@ -16,7 +16,7 @@ def comment_pr(github_token, repo_name, pr_number, content):
     github = Github(github_token)
     repo = github.get_repo(repo_name)
     issue = repo.get_issue(int(pr_number))
-    issue.create_comment(content)
+    issue.create_comment(str(content))
 
 
 def prettify_reference(ref, verbosity=2):
