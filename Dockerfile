@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \ 
     build-essential \
+    libpoppler58=0.41.0-0ubuntu1 \
     libpoppler-dev \
     libpoppler-cpp-dev \
     pkg-config \
