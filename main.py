@@ -69,8 +69,7 @@ def filter_pdf_files(filepaths):
 
 if __name__ == '__main__':
     _, _, github_token, repo_name, pr_number = sys.argv
-    print(find_reference_list('examples/READM'))
-
+    comment_pr(github_token, repo_name, pr_number)
     filepaths = changed_files_list()
     print(filepaths)
     filepaths_pdf = filter_pdf_files(filepaths)
