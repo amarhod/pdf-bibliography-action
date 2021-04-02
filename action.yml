@@ -1,16 +1,22 @@
-name: 'PDF Bibliography action'
-description: 'Checks the reference list of a PDF on PRs'
+name: PDF Bibliography action
+description: Checks the reference list of a PDF on PRs
 inputs:
   token:
-    description: Token for GitHub API requests.
+    description: Token for GitHub API requests
     required: true
     default: ${{ github.token }}
   repo_path:
     required: true
     default: './'
+  repo_name:
+    required: true
+  pr_number: 
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.repo_path }}
-    - ${{ inputs.auth_token }}
+    - ${{ inputs.token }}
+    - ${{ inputs.repo_name }}
+    - ${{ inputs.pr_number }}
