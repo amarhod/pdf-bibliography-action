@@ -1,23 +1,22 @@
 import os
 import sys
-import github
+from github import Github 
 from refextract import extract_references_from_file
 
 
-def comment_pr(github_token, repo_name, pr_number):
+def comment_pr(github_token, repo_name, pr_number, content):
     """ Returns the parsed string version of the reference (dict) and strip down based on verbosity
 
     Keyword arguments:
     github_token -- token to authenticate in workflow run
     repo_name -- the name of the repo that the workflow is run from
-    pr_number -- the pr number that triggered the action
+    pr_number -- the number of the PR that triggered the action
+    content -- the content that should be commented in the PR
     """
-    print(repo_name)
-    print(f"PR number is {pr_number}")
     github = Github(github_token)
     repo = github.get_repo(repo_name)
     issue = repo.get_issue(int(pr_number))
-    issue.create_comment("Testing commenting with action")
+    issue.create_comment(content)
 
 
 def prettify_reference(ref, verbosity=2):
@@ -29,6 +28,19 @@ def prettify_reference(ref, verbosity=2):
     """
     if verbosity == 2 and len(ref['raw_ref'][0]) != 0:
         return ref['raw_ref'][0]
+
+
+def prettify_references(refs, verbosity=2):
+    """ Returns the parsed string version of the references (dict)
+
+    Keyword arguments:
+    refs -- List of references parsed by refextract
+    verbosity -- the level of verbostiy for the reference composition (default 2)
+    """
+    reference_list = ''
+    for ref in refs:
+        reference_list += prettify_reference(ref, verbosity) + '\n'
+    return reference_list
 
 
 def find_reference_list(path):
@@ -60,22 +72,30 @@ def changed_files_list():
 
 def filter_pdf_files(filepaths):
     """ Returns a filtered list with strings that end with '.pdf'
-        
+
     Keyword arguments:
     filepaths -- List of filepath strings
     """
     return [x for x in filepaths if x.endswith('.pdf')]
 
 
-if __name__ == '__main__':
+def main():
     _, _, github_token, repo_name, pr_number = sys.argv
-    print(find_reference_list('examples/READM'))
-
     filepaths = changed_files_list()
     print(filepaths)
     filepaths_pdf = filter_pdf_files(filepaths)
+    print(filepaths_pdf)
     if len(filepaths_pdf) == 0:
         print('No pdf files in commit')
-    print(filepaths_pdf)
+        return
+    references_in_pdfs = {}
     for path in filepaths_pdf:
-        find_reference_list(path)
+        reference_list = find_reference_list(path)
+        prettified_refs = prettify_references(reference_list)
+        references_in_pdfs[path] = prettified_refs
+    if references_in_pdfs != {}:
+        comment_pr(github_token, repo_name, pr_number, references_in_pdfs)
+
+
+if __name__ == '__main__':
+    main()
