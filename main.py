@@ -79,19 +79,23 @@ def filter_pdf_files(filepaths):
     return [x for x in filepaths if x.endswith('.pdf')]
 
 
-if __name__ == '__main__':
+def main():
     _, _, github_token, repo_name, pr_number = sys.argv
     filepaths = changed_files_list()
     print(filepaths)
     filepaths_pdf = filter_pdf_files(filepaths)
+    print(filepaths_pdf)
     if len(filepaths_pdf) == 0:
         print('No pdf files in commit')
-    print(filepaths_pdf)
+        return
     references_in_pdfs = {}
     for path in filepaths_pdf:
         reference_list = find_reference_list(path)
         prettified_refs = prettify_references(reference_list)
         references_in_pdfs[path] = prettified_refs
+    if references_in_pdfs != {}:
+        comment_pr(github_token, repo_name, pr_number, references_in_pdfs)
 
-    
-    comment_pr(github_token, repo_name, pr_number, references_in_pdfs)
+
+if __name__ == '__main__':
+    main()
