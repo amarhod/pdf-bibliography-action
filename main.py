@@ -4,7 +4,7 @@ from github import Github
 from refextract import extract_references_from_file
 
 
-def comment_pr(github_token, repo_name, pr_number, content):
+def comment_pr(github_token, repo_name, pr_number, content, ref_count):
     """ Returns the parsed string version of the reference (dict) and strip down based on verbosity
 
     Keyword arguments:
@@ -13,10 +13,26 @@ def comment_pr(github_token, repo_name, pr_number, content):
     pr_number -- the number of the PR that triggered the action
     content -- the content that should be commented in the PR
     """
+    content_md = content_to_md(content, ref_count)
     github = Github(github_token)
     repo = github.get_repo(repo_name)
     issue = repo.get_issue(int(pr_number))
-    issue.create_comment(str(content))
+    comment_header = '## PDF Bibliography summary & check :blue_book: :mag_right: \n'
+    issue.create_comment(comment_header + content_md)
+
+
+def content_to_md(content, ref_count):
+    """ Returns the content (reference list for each pdf file) in a markdown formated string
+
+    Keyword arguments:
+    content -- a dict with each key being a pdf file path and reference list (str) as value
+    content -- a dict with each key being a pdf file path and reference count as value
+    """
+    content_md = ''
+    for key, value in content.items():
+        content_md += ('### File path: ' + key + ' (reference count: ' + str(ref_count[key]) + 
+                        ')\n```\n' + value + '\n```\n')
+    return content_md
 
 
 def prettify_reference(ref, verbosity=2):
@@ -34,12 +50,12 @@ def prettify_references(refs, verbosity=2):
     """ Returns the parsed string version of the references (dict)
 
     Keyword arguments:
-    refs -- List of references parsed by refextract
+    refs -- list of references parsed by refextract
     verbosity -- the level of verbostiy for the reference composition (default 2)
     """
     reference_list = ''
     for ref in refs:
-        reference_list += prettify_reference(ref, verbosity) + '\n'
+        reference_list += (prettify_reference(ref, verbosity) + '\n')
     return reference_list
 
 
@@ -84,17 +100,19 @@ def main():
     filepaths = changed_files_list()
     print(filepaths)
     filepaths_pdf = filter_pdf_files(filepaths)
-    print(filepaths_pdf)
     if len(filepaths_pdf) == 0:
         print('No pdf files in commit')
         return
+    print(filepaths_pdf)
     references_in_pdfs = {}
+    references_in_pdfs_count = {}
     for path in filepaths_pdf:
         reference_list = find_reference_list(path)
         prettified_refs = prettify_references(reference_list)
         references_in_pdfs[path] = prettified_refs
+        references_in_pdfs_count[path] = len(reference_list)
     if references_in_pdfs != {}:
-        comment_pr(github_token, repo_name, pr_number, references_in_pdfs)
+        comment_pr(github_token, repo_name, pr_number, references_in_pdfs, references_in_pdfs_count)
 
 
 if __name__ == '__main__':
