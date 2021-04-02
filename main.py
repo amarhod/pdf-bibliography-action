@@ -1,6 +1,6 @@
 import os
 import sys
-import github
+from github import Github 
 from refextract import extract_references_from_file
 
 
