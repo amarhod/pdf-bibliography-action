@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libpoppler-dev \
     libpoppler-cpp-dev \
-    xpdf \
+    poppler-utils \
     pkg-config \
     python3-dev
 
