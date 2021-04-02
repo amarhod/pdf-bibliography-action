@@ -15,11 +15,9 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     python3-dev
 
-COPY requirements.txt /app/
+COPY . /app
 
 RUN pip3 install -r requirements.txt
-
-COPY . /app
 
 RUN chmod +x /app/entrypoint.sh
 

@@ -1,4 +1,4 @@
-on: push
+on: pull_request
 
 jobs:
   pdf-bibliography:
@@ -13,4 +13,7 @@ jobs:
         git diff-tree --no-commit-id --name-status -r ${{ github.sha }} > CHANGED_FILES_PATHS.txt
     - uses: amarhod/pdf-bibliography-action@pdf-parse
       with:
+        token: ${{ github.token }}
         repo_path: ./
+        repo_name: ${{ github.repository }}
+        pr_number: ${{ github.event.number }}
