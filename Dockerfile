@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \ 
     build-essential \
+    libpoppler-dev \
     libpoppler-cpp-dev \
     pkg-config \
     python3-dev
