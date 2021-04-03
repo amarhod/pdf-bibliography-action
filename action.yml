@@ -12,6 +12,10 @@ inputs:
     required: true
   pr_number: 
     required: true
+  verbosity:
+    description: Level of verbosity when prettifying references 
+    required: true
+    default: 2
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -20,3 +24,4 @@ runs:
     - ${{ inputs.token }}
     - ${{ inputs.repo_name }}
     - ${{ inputs.pr_number }}
+    - ${{ inputs.verbosity }}

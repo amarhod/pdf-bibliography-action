@@ -21,3 +21,4 @@ jobs:
         repo_path: ./
         repo_name: ${{ github.repository }}
         pr_number: ${{ github.event.number }}
+        verbosity: 2

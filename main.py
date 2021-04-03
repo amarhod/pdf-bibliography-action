@@ -59,7 +59,9 @@ def prettify_references(refs, verbosity=2):
     """
     reference_list = ''
     for ref in refs:
-        reference_list += (prettify_reference(ref, verbosity) + '\n')
+        prettified_ref = prettify_reference(ref, verbosity)
+        if prettified_ref != None:
+            reference_list += (prettified_ref + '\n')
     return reference_list
 
 
@@ -100,7 +102,7 @@ def filter_pdf_files(filepaths):
 
 
 def main():
-    _, _, github_token, repo_name, pr_number = sys.argv
+    _, _, github_token, repo_name, pr_number, verbosity = sys.argv
     filepaths = changed_files_list()
     print(filepaths)
     filepaths_pdf = filter_pdf_files(filepaths)
@@ -116,7 +118,7 @@ def main():
         if len(reference_list) == 0:
             faulty_pdfs.append(path)
             continue
-        prettified_refs = prettify_references(reference_list)
+        prettified_refs = prettify_references(reference_list, verbosity=int(verbosity))
         references_in_pdfs[path] = prettified_refs
         references_in_pdfs_count[path] = len(reference_list)
     if references_in_pdfs != {} or faulty_pdfs != 0:
