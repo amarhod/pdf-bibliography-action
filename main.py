@@ -5,14 +5,14 @@ from refextract import extract_references_from_file
 
 
 def comment_pr(github_token, repo_name, pr_number, content, ref_count, faulty_pdfs):
-    """ Returns the parsed string version of the reference (dict) and strip down based on verbosity
+    """ Comments on the PR with the prettified reference list for each pdf file
 
     Keyword arguments:
     github_token -- token to authenticate in workflow run
     repo_name -- the name of the repo that the workflow is run from
     pr_number -- the number of the PR that triggered the action
     content -- the content that should be commented in the PR
-    faulty_pdfs -- a list of pdf files either without references or with problems parsing
+    faulty_pdfs -- a list of pdf files, either without references or with parsing issues
     """
     content_md = content_to_md(content, ref_count, faulty_pdfs)
     github = Github(github_token)
@@ -28,7 +28,7 @@ def content_to_md(content, ref_count, faulty_pdfs):
     Keyword arguments:
     content -- a dict with each key being a pdf filepath and reference list (str) as value
     ref_count -- a dict with each key being a pdf filepath and reference count as value
-    faulty_pdfs -- a list of pdf files either without references or with problems parsing
+    faulty_pdfs -- a list of pdf files, either without references or with parsing issues
     """
     content_md = ''
     for key, value in content.items():
@@ -81,7 +81,7 @@ def prettify_references(refs, verbosity=2):
 
 
 def find_reference_list(path):
-    """ Returns the reference list as a list of dicts if refextract can detect one
+    """ Returns the reference list as a list of dicts if refextract can detect it
 
     Keyword arguments:
     path -- path to the file containing filepaths for the files that should be examined
