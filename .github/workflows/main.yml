@@ -5,6 +5,7 @@ on:
 jobs:
   pdf-bibliography:
     name: A job to check bibliography in pdf files
+    if: ${{ github.event.label.name == 'essay' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
