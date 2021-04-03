@@ -1,6 +1,6 @@
 import os
 import sys
-from github import Github 
+from github import Github
 from refextract import extract_references_from_file
 
 
@@ -32,11 +32,26 @@ def content_to_md(content, ref_count, faulty_pdfs):
     """
     content_md = ''
     for key, value in content.items():
-        content_md += ('### File: ' + key + ' (reference count: ' + str(ref_count[key]) + 
-                        ')\n```\n' + value + '```\n')
+        content_md += ('### File: ' + key + ' (reference count: ' + str(ref_count[key]) +
+                       ')\n```\n' + value + '```\n')
     if len(faulty_pdfs) != 0:
         content_md += ('\n :x: Could not find reference list for pdf files: ' + ' '.join(faulty_pdfs))
     return content_md
+
+
+def remove_duplicate_refs(refs):
+    """ Returns the list of references without duplicates that sometimes happen with refextract
+
+    Keyword arguments:
+    refs -- list of references parsed by refextract
+    """
+    saved_refs = []
+    refs_cleaned = []
+    for ref in refs:
+        if ref['linemarker'][0] not in saved_refs:
+            refs_cleaned.append(ref)
+            saved_refs.append(ref['linemarker'][0])
+    return refs_cleaned
 
 
 def prettify_reference(ref, verbosity=2):
@@ -60,7 +75,7 @@ def prettify_references(refs, verbosity=2):
     reference_list = ''
     for ref in refs:
         prettified_ref = prettify_reference(ref, verbosity)
-        if prettified_ref != None:
+        if prettified_ref is not None:
             reference_list += (prettified_ref + '\n')
     return reference_list
 
@@ -76,7 +91,7 @@ def find_reference_list(path):
         references = extract_references_from_file(path)
     except:
         print('Could not read pdf file')
-    return references
+    return remove_duplicate_refs(references)
 
 
 def changed_files_list():
@@ -122,8 +137,8 @@ def main():
         references_in_pdfs[path] = prettified_refs
         references_in_pdfs_count[path] = len(reference_list)
     if references_in_pdfs != {} or faulty_pdfs != 0:
-        comment_pr(github_token, repo_name, pr_number, references_in_pdfs, 
-                    references_in_pdfs_count, faulty_pdfs)
+        comment_pr(github_token, repo_name, pr_number, references_in_pdfs,
+                   references_in_pdfs_count, faulty_pdfs)
 
 
 if __name__ == '__main__':
