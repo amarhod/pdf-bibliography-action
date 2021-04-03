@@ -12,6 +12,7 @@ This Github Action generates a summary of the bibliography for each PDF file in 
         repo_path: ./
         repo_name: ${{ github.repository }}
         pr_number: ${{ github.event.number }}
+        verbosity: 2
 ```
 
 
@@ -32,6 +33,7 @@ on:
 jobs:
   pdf-bibliography:
     name: A job to check bibliography in pdf files
+    if: ${{ github.event.label.name == 'essay' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -48,9 +50,10 @@ jobs:
         repo_path: ./
         repo_name: ${{ github.repository }}
         pr_number: ${{ github.event.number }}
+        verbosity: 2
 ```
 
-**This YAML file checks the new/modified files in a PR (compared to `origin/main`) when a label is assigned. If there are PDF files in the PR, the action will try to extract the reference lists and comment on the PR with a summary**
+**This YAML file checks the new/modified files in a PR (compared to `origin/main`) when the label `essay` is assigned. If there are PDF files in the PR, the action will try to extract the reference lists and comment on the PR with a summary**
 
 
 # Example of generated summary for PR comment
