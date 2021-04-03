@@ -39,6 +39,21 @@ def content_to_md(content, ref_count, faulty_pdfs):
     return content_md
 
 
+def remove_duplicate_refs(refs):
+    """ Returns the list of references without duplicates that sometimes happen with refextract
+
+    Keyword arguments:
+    refs -- list of references parsed by refextract
+    """
+    saved_refs = []
+    refs_cleaned = []
+    for ref in refs:
+        if ref['linemarker'][0] not in saved_refs:
+            refs_cleaned.append(ref)
+            saved_refs.append(ref['linemarker'][0])
+    return refs_cleaned
+
+
 def prettify_reference(ref, verbosity=2):
     """ Returns the parsed string version of the reference (dict) and strip down based on verbosity
 
@@ -76,7 +91,7 @@ def find_reference_list(path):
         references = extract_references_from_file(path)
     except:
         print('Could not read pdf file')
-    return references
+    return remove_duplicate_refs(references)
 
 
 def changed_files_list():
