@@ -33,7 +33,7 @@ def content_to_md(content, ref_count, faulty_pdfs):
     content_md = ''
     for key, value in content.items():
         content_md += ('### File: ' + key + ' (reference count: ' + str(ref_count[key]) + 
-                        ')\n```\n' + value + '\n```\n')
+                        ')\n```\n' + value + '```\n')
     if len(faulty_pdfs) != 0:
         content_md += ('\n :x: Could not find reference list for pdf files: ' + ' '.join(faulty_pdfs))
     return content_md
