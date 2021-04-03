@@ -48,7 +48,7 @@ def remove_duplicate_refs(refs):
     saved_refs = []
     refs_cleaned = []
     for ref in refs:
-        if ref['linemarker'][0] not in saved_refs:
+        if 'linemarker' in ref and ref['linemarker'][0] not in saved_refs:
             refs_cleaned.append(ref)
             saved_refs.append(ref['linemarker'][0])
     return refs_cleaned
