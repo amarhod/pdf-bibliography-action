@@ -59,7 +59,9 @@ def prettify_references(refs, verbosity=2):
     """
     reference_list = ''
     for ref in refs:
-        reference_list += (prettify_reference(ref, verbosity) + '\n')
+        prettified_ref = prettify_reference(ref, verbosity)
+        if prettified_ref != None:
+            reference_list += (prettified_ref + '\n')
     return reference_list
 
 
