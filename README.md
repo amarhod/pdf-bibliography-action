@@ -65,6 +65,7 @@ jobs:
 [2] Albert Einstein. Zur Elektrodynamik bewegter Körper. (German) [On the electrodynamics of moving bodies]. Annalen der Physik, 322(10):891–921, 1905.
 [3] Knuth: Computers and Typesetting, http://www-cs-faculty.stanford.edu/~uno/abcde.html 1
 ```
+:x: Could not find reference list for pdf files: examples/example_2.pdf
 
 ## Unit tests
 Run unit tests with:
