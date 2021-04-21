@@ -32,7 +32,7 @@ on:
 
 jobs:
   pdf-bibliography:
-    name: A job to check bibliography in pdf files
+    name: A job to check bibliography in PDF files and post summary comment in PR
     if: ${{ github.event.label.name == 'essay' }}
     runs-on: ubuntu-latest
     steps:
@@ -56,7 +56,7 @@ jobs:
 **This YAML file checks the new/modified files in a PR (compared to `origin/main`) when the label `essay` is assigned. If there are PDF files in the PR, the action will try to extract the reference lists and comment on the PR with a summary**
 
 
-## Example of generated summary for PR comment
+## Example of generated comment on PR
 
 ### :blue_book: :mag_right: PDF Bibliography summary
 ### File: examples/example_1.pdf (reference count: 3)
@@ -65,7 +65,7 @@ jobs:
 [2] Albert Einstein. Zur Elektrodynamik bewegter Körper. (German) [On the electrodynamics of moving bodies]. Annalen der Physik, 322(10):891–921, 1905.
 [3] Knuth: Computers and Typesetting, http://www-cs-faculty.stanford.edu/~uno/abcde.html 1
 ```
-:x: Could not find reference list for pdf files: examples/example_2.pdf
+:x: Could not find reference list for PDF files: examples/example_2.pdf
 
 ## Unit tests
 Run unit tests with:
