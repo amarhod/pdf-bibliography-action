@@ -5,14 +5,14 @@ from refextract import extract_references_from_file
 
 
 def comment_pr(github_token, repo_name, pr_number, content, ref_count, faulty_pdfs):
-    """ Comments on the PR with the prettified reference list for each pdf file
+    """ Comments on the PR with the prettified reference list for each PDF file
 
     Keyword arguments:
     github_token -- token to authenticate in workflow run
     repo_name -- the name of the repo that the workflow is run from
     pr_number -- the number of the PR that triggered the action
     content -- the content that should be commented in the PR
-    faulty_pdfs -- a list of pdf files, either without references or with parsing issues
+    faulty_pdfs -- a list of PDF files, either without references or with parsing issues
     """
     content_md = content_to_md(content, ref_count, faulty_pdfs)
     github = Github(github_token)
@@ -23,19 +23,19 @@ def comment_pr(github_token, repo_name, pr_number, content, ref_count, faulty_pd
 
 
 def content_to_md(content, ref_count, faulty_pdfs):
-    """ Returns the content (reference list for each pdf file) in a markdown formated string
+    """ Returns the content (reference list for each PDF file) in a markdown formated string
 
     Keyword arguments:
-    content -- a dict with each key being a pdf filepath and reference list (str) as value
-    ref_count -- a dict with each key being a pdf filepath and reference count as value
-    faulty_pdfs -- a list of pdf files, either without references or with parsing issues
+    content -- a dict with each key being a PDF filepath and reference list (str) as value
+    ref_count -- a dict with each key being a PDF filepath and reference count as value
+    faulty_pdfs -- a list of PDF files, either without references or with parsing issues
     """
     content_md = ''
     for key, value in content.items():
         content_md += ('### File: ' + key + ' (reference count: ' + str(ref_count[key]) +
                        ')\n```\n' + value + '```\n')
     if len(faulty_pdfs) != 0:
-        content_md += ('\n :x: Could not find reference list for pdf files: ' + ' '.join(faulty_pdfs))
+        content_md += ('\n :x: Could not find reference list for PDF files: ' + ' '.join(faulty_pdfs))
     return content_md
 
 
@@ -90,7 +90,7 @@ def find_reference_list(path):
     try:
         references = extract_references_from_file(path)
     except:
-        print('Could not read pdf file')
+        print('Could not read PDF file')
     return remove_duplicate_refs(references)
 
 
@@ -119,10 +119,9 @@ def filter_pdf_files(filepaths):
 def main():
     _, _, github_token, repo_name, pr_number, verbosity = sys.argv
     filepaths = changed_files_list()
-    print(filepaths)
     filepaths_pdf = filter_pdf_files(filepaths)
     if len(filepaths_pdf) == 0:
-        print('No pdf files in commit')
+        print('No PDF files found in PR')
         return
     print(filepaths_pdf)
     faulty_pdfs = []
