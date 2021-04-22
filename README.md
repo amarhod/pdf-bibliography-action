@@ -6,7 +6,7 @@ This Github Action generates a summary of the bibliography for each PDF file in 
         BRANCH_DIFF: origin/main
       run: |
         git diff-tree --no-commit-id --name-status -r $BRANCH_DIFF ${{ github.sha }} > CHANGED_FILES_PATHS.txt
-    - uses: amarhod/pdf-bibliography-action@main
+    - uses: amarhod/pdf-bibliography-action@v1
       with:
         token: ${{ github.token }}
         repo_path: ./
@@ -44,7 +44,7 @@ jobs:
         BRANCH_DIFF: origin/main
       run: |
         git diff-tree --no-commit-id --name-status -r $BRANCH_DIFF ${{ github.sha }} > CHANGED_FILES_PATHS.txt
-    - uses: amarhod/pdf-bibliography-action@main
+    - uses: amarhod/pdf-bibliography-action@v1
       with:
         token: ${{ github.token }}
         repo_path: ./
