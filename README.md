@@ -53,7 +53,7 @@ jobs:
         verbosity: 2
 ```
 
-**This YAML file checks the new/modified files in a PR (compared to `origin/main`) when the label `essay` is assigned. If there are PDF files in the PR, the action will try to extract the reference lists and comment on the PR with a summary**
+**This YAML file checks the new/modified files in a PR (compared to `origin/main`) when the label `essay` is assigned. If there are new or modified PDF files in the PR, the action will try to extract the reference lists and comment on the PR with a summary**
 
 
 ## Example of generated comment on PR
